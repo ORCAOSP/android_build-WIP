@@ -253,7 +253,7 @@ function addcompletions()
         return
     fi
 
-    dirs="sdk/bash_completion vendor/pa/bash_completion"
+    dirs="sdk/bash_completion vendor/orca/bash_completion"
     for dir in $dirs; do
     if [ -d ${dir} ]; then
         for f in `/bin/ls ${dir}/[a-z]*.bash 2> /dev/null`; do
@@ -503,17 +503,6 @@ function lunch()
 
     local product=$(echo -n $selection | sed -e "s/-.*$//")
     check_product $product
-    if [ $? -ne 0 ]
-    then
-        # if we can't find a product, try to grab it off the CM github
-        T=$(gettop)
-        pushd $T > /dev/null
-        build/tools/roomservice.py $product
-        popd > /dev/null
-        check_product $product
-    else
-        build/tools/roomservice.py $product true
-    fi
     if [ $? -ne 0 ]
     then
         echo
